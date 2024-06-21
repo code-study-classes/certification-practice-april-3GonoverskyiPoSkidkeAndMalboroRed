@@ -1,8 +1,10 @@
-import { doesNotThrow } from 'assert';
-import { parse } from 'path';
+// import { doesNotThrow } from 'assert';
+// import { parse } from 'path';
 
+const candidateAssessment = () => {};
+const tableParsing = () => {};
 // task 1
-
+/*
 // доп. функции
 const normalizeData = (content) => content.trim().split('\n');
 // получаем рейтинг всех приложений из AppStore и PlayMarket
@@ -72,7 +74,8 @@ const tableParsing = (content) => {
   console.log(`General top massenger: ${name}, Owner: ${company}`);
   // step 2 result
   const IndiaCount = tableParsed.map((item) => getCountDownload(item));
-  console.log(`Download count: Max count: ${Math.max(...IndiaCount)}, Min count: ${Math.min(...IndiaCount)}`);
+  console.log(`Download count: Max count: ${Math.max(...IndiaCount)},
+   Min count: ${Math.min(...IndiaCount)}`);
   // step 3 result
   const topAustralia = getAlphabeticalSorting(tableParsed);
   console.log(`Top 3 Australia ${topAustralia.join(', ')}`);
@@ -86,9 +89,59 @@ const candidateAssessment = (content) => {
 
 };
 
-// task 3
-const actorRating = (/* content */) => {
+*/
 
+// task 3
+/* const actorRating = (content) => {
+  // First, parse the content into an array of movie data
+  const movieData = content.split('\n').slice(1).map(row => {
+    const [title, year, award, nomination] = row.split(',');
+    return { title, year, award: parseInt(award), nomination: parseInt(nomination) };
+  });
+
+  // Calculate the statistics
+  const totalMovies = movieData.length;
+  const totalAwards = movieData.filter(m => m.award > 0).length;
+  const totalNominations = movieData.filter(m => m.nomination > 0).length;
+  const mostSuccessfulMovie = movieData.reduce((max, movie) => Math.max(max, movie.award), 0);
+  const successYear = movieData.find(m => m.award === mostSuccessfulMovie)?.year;
+  const badYear = movieData.find(m => m.nomination === 0)?.year;
+  const rewardsPercent = (totalAwards / totalMovies) * 100;
+
+  // Print the statistics
+  console.log(`Awards: Rewards:
+  ${totalAwards}, Nominations: ${totalNominations}`);
+  console.log(`Movies 2003: ${movieData.filter(m => m.year === '2003')
+  .map(m => m.title).join(', ')}`);
+  console.log(`Rewards percent: ${rewardsPercent}%`);
+  console.log(`Most successful movie: ${mostSuccessfulMovie} (${successYear})`);
+  console.log(`Annual counter: Success year: ${successYear}, Bad year: ${badYear}`);
+}; */
+
+const actorRating = (content) => {
+  // First, parse the content into an array of movie data
+  const movieData = content.split('\n').slice(1).map((row) => {
+    const [title, year, award, nomination] = row.split(' — ');
+    return {
+      title, year, award: parseInt(award, 10), nomination: parseInt(nomination, 10),
+    };
+  });
+
+  // Calculate the statistics
+  const totalMovies = movieData.length;
+  const totalAwards = movieData.filter((m) => m.award > 0).length;
+  const totalNominations = movieData.filter((m) => m.nomination > 0).length;
+  const mostSuccessfulMovie = movieData.reduce((max, movie) => Math.max(max, movie.award), 0);
+  const successYear = movieData.find((m) => m.award === mostSuccessfulMovie)?.year;
+  const badYear = movieData.find((m) => m.nomination === 0)?.year;
+  const rewardsPercent = (totalAwards / totalMovies) * 100;
+
+  // Print the statistics
+  console.log(`Awards: Rewards: ${totalAwards}, Nominations: ${totalNominations}`);
+  console.log(`Movies 2003: ${movieData.filter((m) => m.year === '2003').map((m) => m.title).join(', ')}`);
+  console.log(`Rewards percent: ${rewardsPercent}%`);
+  console.log(`Most successful movie: ${mostSuccessfulMovie} (${successYear})`);
+  console.log(`Annual counter: Success year: ${successYear}, Bad year: ${badYear}`);
 };
 
 export { tableParsing, candidateAssessment, actorRating };
